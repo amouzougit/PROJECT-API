@@ -32,6 +32,8 @@ import com.offreapi.offreapi.auth.playload.request.LoginRequest;
 import com.offreapi.offreapi.auth.playload.request.SignupRequest;
 import com.offreapi.offreapi.auth.playload.response.ErrorResponse;
 import com.offreapi.offreapi.auth.playload.response.JwtResponse;
+import com.offreapi.offreapi.auth.playload.request.VerifyForgotPasswordResquest;
+
 
 import com.offreapi.offreapi.auth.playload.response.MessageResponse;
 
@@ -143,8 +145,24 @@ public class AuthController {
 
 		user.setRoles(roles);
 		userRepository.save(user);
+		
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(signUpRequest.getUsername(), signUpRequest.getPassword()));
 
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtils.generateJwtToken(authentication);
+		
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+		List<String> rolesEn = userDetails.getAuthorities().stream()
+				.map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+
+		return ResponseEntity.ok(new JwtResponse(jwt, 
+												 userDetails.getId(), 
+												 userDetails.getUsername(), 
+												 userDetails.getEmail(), 
+												 rolesEn));
+		
 	}
 	
 	@PostMapping("/send-forgot-password-code")
@@ -175,5 +193,26 @@ public class AuthController {
 
 	}
 	
+	@PostMapping("/verify-forgot-password-code")
+	public ResponseEntity verifyForgotPassword(@Valid @RequestBody VerifyForgotPasswordResquest verifyForgotPasswordResquest) {
+
+		Boolean done = userService.VerifyForgotPasswordCodeAndSetNewPassword(verifyForgotPasswordResquest.getEmail(),verifyForgotPasswordResquest.getCode(), verifyForgotPasswordResquest.getNewPassword());	
+		if(done) {
+		    return ResponseEntity
+			.ok()
+            .body(
+               "mot de passe  change avec succes"
+            );
+			
+		}
+        
+	  return ResponseEntity
+				.badRequest()
+	            .body(
+	               "erreur  lors du changement  du mot de passe"
+	            );
+				
+	}
+
 	
 }

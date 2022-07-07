@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,8 +38,16 @@ public class CategorieController {
 	 private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	 
 	 
+	 @PostMapping("/addCategorie")
+	    //@PreAuthorize("hasRole('ADMIN')")
+	    public Categorie createCategorie(@Valid @RequestBody CreateCategorieRequest categorieRequest, @AuthenticationPrincipal UserDetailsImpl userDetail) {
+	    	Categorie categorie = new Categorie(categorieRequest.getTitre(), categorieRequest.getDescription());
+	    	categorieRepository.save(categorie);
+	    	return categorie;
+	    
+		}
+
 	 
-	
 	 
 	 /**
 	     * Method to fetch all users from the db.
@@ -63,31 +72,14 @@ public class CategorieController {
 	        return this.categorieRepository.findById(id);
 	    }
 	    
-	    
-	    
-	    /**
-	     * Method to update offre by id.
-	     * @param id
-	     * @param offre
-	     * @return
-	     */
-	   /* @PutMapping("/{id}")
-	    @ResponseStatus(HttpStatus.OK)
-	    public String update(@PathVariable(value= "id") int id, @RequestBody Offre offre) {
-	        logger.debug("Updating offre with id= {}.", id);
-	        offre.setId("id");
-	        offreRepository.updateOffre(offre);
-	        return "offre record for user-id= " + id + " updated.";
-	    }
-	    */
 	 
 	    
 	    /**
-	     * Method to delete user by id.
+	     * Method to delete categorie by id.
 	     * @param id
 	     * @return
 	     */
-	    @DeleteMapping("/{id}")
+	    @DeleteMapping("categories/{id}")
 	    @ResponseStatus(HttpStatus.OK)
 	    public String delete(@PathVariable(value= "id") int id) {
 	        logger.debug("Deleting categorie with id= {}.", id);
@@ -95,14 +87,12 @@ public class CategorieController {
 	        return "offre record for id= " + id + " deleted.";
 	    }
 	    
-	    @PostMapping("/create")
-	    //@PreAuthorize("hasRole('ADMIN')")
-	    public Categorie createCategorie(@Valid @RequestBody CreateCategorieRequest categorieRequest, @AuthenticationPrincipal UserDetailsImpl userDetail) {
-	    	Categorie categorie = new Categorie(categorieRequest.getTitre(), categorieRequest.getDescription());
-	    	categorieRepository.save(categorie);
-	    	return categorie;
+	    @DeleteMapping("/categories")
+	    public ResponseEntity<HttpStatus> deleteAllCategories() {
+			return null;
+	      
+	    }
 	    
-		}
-
+	   
 	
 }

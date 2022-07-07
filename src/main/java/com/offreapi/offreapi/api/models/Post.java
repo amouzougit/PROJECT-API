@@ -11,8 +11,9 @@ public class Post {
 		@Id
 		private String id;
 		private String idUser;
-		private String idCategorie;
+		private String idCategorie = null;
 		private String description;
+		private String titre;
 		private Date createDate;
 		private Date modifiedDate;
 		
@@ -20,28 +21,19 @@ public class Post {
 		}
 
 		
-		public Post(String idUser,  String idCategorie, String description) {
+		public Post(String idUser,String description, String titre) {
 			super();
 			this.idUser = idUser;
-			this.idCategorie = idCategorie;
 			this.description = description;
+			this.titre = titre;
 			this.createDate = new Date();
 		}
 			
-		public Post(String idUser,String description) {
-				
-			this.description = description;
-			this.idUser = idUser;
-
-				
-			}
-
 		
 		public Post(String id,String idUser,  String idCategorie, String description, Date createDate, Date modifiedDate) {
 			super();
 			this.idUser = idUser;
 			this.id = id;
-			this.idCategorie = idCategorie;
 			this.description = description;
 			this.createDate = createDate;
 			this.modifiedDate = modifiedDate;
@@ -94,9 +86,16 @@ public class Post {
 		public void setModifiedDate(Date modifiedDate) {
 			this.modifiedDate = modifiedDate;
 		}
-		
-		
-		
+
+		public String getTitre() {
+			return titre;
+		}
+
+
+		public void setTitre(String titre) {
+			this.titre = titre;
+		}
+
 
 		@Override
 		public String toString() {

@@ -37,15 +37,25 @@ public class MessageController {
 	 
 	 
 	 
+	   @PostMapping("/addMessage")
+	    public Message createMessage(@RequestBody CreateMessageRequest messageRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	    	//System.out.println(userDetail.getEmail()+" "+userDetail.getUsername());
+	    	Message message = new Message(userDetail.getId(),messageRequest.getReceiverId(), messageRequest.getSenderId(), messageRequest.getMessage());
+	    	messageRepository.save(message);
+	    	return message;
+	    
+		}
+	 
+	 
 	 /**
-	     * Method to fetch all users from the db.
+	     * Method to fetch all messages from the db.
 	     * @return
 	     */
 	    @GetMapping("/all")
 	    @ResponseStatus(HttpStatus.OK)
 	    public Collection<Message> getAll() {
-	        System.out.println("-------> : getAllOffres");
-	        logger.debug("Getting all discussions.");
+	        System.out.println("-------> : getAllmessages");
+	        logger.debug("Getting all message.");
 	        return this.messageRepository.findAll();
 	    }
 	    
@@ -66,14 +76,6 @@ public class MessageController {
 	        return "offre record for id= " + id + " deleted.";
 	    }
 	    
-	    @PostMapping("/create")
-	    public Message createMessage(@RequestBody CreateMessageRequest messageRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
-	    	//System.out.println(userDetail.getEmail()+" "+userDetail.getUsername());
-	    	Message message = new Message(userDetail.getId(),messageRequest.getReceiverId(), messageRequest.getSenderId(), messageRequest.getMessage());
-	    	messageRepository.save(message);
-	    	return message;
-	    
-		}
 	 
 
 

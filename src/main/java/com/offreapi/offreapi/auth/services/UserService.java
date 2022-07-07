@@ -63,8 +63,13 @@ public class UserService {
 
 		String code = generateDigit();
 		LocalDateTime now  = LocalDateTime.now();
+		String encryptedCode = encoder.encode(code);
+		System.out.println("code during email sending: "+code);
+		System.out.println("encrypted code during email sending: "+encryptedCode);
 		
-		passwordReset.setCode(code);
+		passwordReset.setCode(encryptedCode);
+		
+		passwordReset.setUserId(userOptional.get().getId());
 		passwordReset.setCreatedAt(now);
 		
 		passwordResetRepository.save(passwordReset);
@@ -85,6 +90,46 @@ public class UserService {
 		
 	}
 
+	public Boolean VerifyForgotPasswordCodeAndSetNewPassword(String email, String code, String newPassword) {
+		
+		Optional<User> userOptional = userRepository.findByEmail(email); 
+		if (!userOptional.isPresent()) {
+			System.out.println("email non associer a un compte");
+			return false;
+		}
+		String encryptedCode = encoder.encode(code);
+		String userId = userOptional.get().getId();
+
+		System.out.println("code during verification: "+code);
+		System.out.println("encrypted code during verification: "+encryptedCode);
+		System.out.println("userId: "+userId);
+		System.out.println("validecode: "+encoder.matches(code, encryptedCode));
+		
+
+		Optional<PasswordReset> passwordResetOptional = passwordResetRepository.findByUserIdAndIsVerified(userId, false);
+		if(!passwordResetOptional.isPresent()) {
+			System.out.println("erreur lors de reception du password");
+			return false;
+		}
+		System.out.println("__validecode: "+encoder.matches(code, passwordResetOptional.get().getCode()));
+
+		if(encoder.matches(code, passwordResetOptional.get().getCode())) {
+			
+			User user = userOptional.get();
+			user.setPassword(encoder.encode(newPassword));
+			userRepository.save(user);
+			PasswordReset passwordReset = passwordResetOptional.get();
+			passwordReset.setVerified(true);
+			passwordResetRepository.save(passwordReset);
+			return true;
+		}
+		return false;
+			
+		
+		
+	}
+
+	
 	private PasswordReset passwordReset() {
 		// TODO Auto-generated method stub
 		return null;

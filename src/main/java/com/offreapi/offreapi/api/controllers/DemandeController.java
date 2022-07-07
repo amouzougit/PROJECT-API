@@ -36,7 +36,6 @@ public class DemandeController {
 	 private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	 
 	 
-	 
 	
 	 
 	 /**

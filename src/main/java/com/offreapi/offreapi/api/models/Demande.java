@@ -7,10 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collation = "demande")
 public class Demande extends Post {
 
-	/*@Id
-	private String id;
-	*/
-
 	private String idDiscussion;
 	
 	//private Date createDate;

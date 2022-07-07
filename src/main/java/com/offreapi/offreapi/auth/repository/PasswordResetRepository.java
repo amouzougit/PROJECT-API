@@ -12,6 +12,11 @@ public interface PasswordResetRepository  extends MongoRepository<PasswordReset,
 	Optional<PasswordReset> findById(String id);
 	
 	Optional<PasswordReset> findByUserId(String userId);
+	
+	Optional<PasswordReset> findByCodeAndUserIdAndIsVerified(String code, String userId, boolean isVerified);
+
+	Optional<PasswordReset> findByUserIdAndIsVerified(String userId, boolean isVerified);
+
 
   
 

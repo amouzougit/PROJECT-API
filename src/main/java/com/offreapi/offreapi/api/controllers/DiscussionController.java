@@ -33,16 +33,25 @@ public class DiscussionController {
 	 
 	 
 	 
-	
+	    @PostMapping("/create")
+	    public Discussion createDemande(@RequestBody CreateDiscussionRequest discussionRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	    	//System.out.println(userDetail.getEmail()+" "+userDetail.getUsername());
+	    	Discussion discussion = new Discussion(userDetail.getId());
+	    	discussionRepository.save(discussion);
+	    	return discussion;
+	    
+		}
+	 
+	    
 	 
 	 /**
 	     * Method to fetch all users from the db.
 	     * @return
 	     */
-	    @GetMapping("/all")
+	    @GetMapping("/allDiscussion")
 	    @ResponseStatus(HttpStatus.OK)
 	    public Collection<Discussion> getAll() {
-	        System.out.println("-------> : getAllOffres");
+	        System.out.println("-------> : getAllDiscussions");
 	        logger.debug("Getting all discussions.");
 	        return this.discussionRepository.findAll();
 	    }
@@ -54,7 +63,7 @@ public class DiscussionController {
 	     */
 	    @GetMapping("/{id}")
 	    public Optional<Discussion> getById(@PathVariable(value= "id") int id) {
-	        logger.debug("Getting users with user-id= {}.", id);
+	        logger.debug("Getting discussions with discussions-id= {}.", id);
 	        return this.discussionRepository.findById(id);
 	    }
 	    
@@ -65,18 +74,10 @@ public class DiscussionController {
 	    public String delete(@PathVariable(value= "id") int id) {
 	        logger.debug("Deleting discussion with id= {}.", id);
 	        discussionRepository.deleteById(id);
-	        return "offre record for id= " + id + " deleted.";
+	        return "discussion record for id= " + id + " deleted.";
 	    }
 	    
-	    @PostMapping("/create")
-	    public Discussion createDemande(@RequestBody CreateDiscussionRequest discussionRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
-	    	//System.out.println(userDetail.getEmail()+" "+userDetail.getUsername());
-	    	Discussion discussion = new Discussion(userDetail.getId());
-	    	discussionRepository.save(discussion);
-	    	return discussion;
-	    
-		}
-	 
+
 	
 	
 

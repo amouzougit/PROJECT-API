@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.offreapi.offreapi.api.models.Message;
@@ -23,6 +24,7 @@ import com.offreapi.offreapi.api.types.CreateMessageRequest;
 import com.offreapi.offreapi.api.types.PostCreateRequest;
 import com.offreapi.offreapi.auth.security.services.UserDetailsImpl;
 
+@RequestMapping("/api/post")
 public class PostController {
 	
 	 @Autowired 
@@ -61,7 +63,7 @@ public class PostController {
 	    }
 	    
 	    @PostMapping("/create")
-	    public Post createMessage(@RequestBody PostCreateRequest postCreateRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	    public Post createPost(@RequestBody PostCreateRequest postCreateRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 	    	//System.out.println(userDetail.getEmail()+" "+userDetail.getUsername());
 	    	Post post = new Post(userDetail.getId(), postCreateRequest.getDescription());
 	    	postRepository.save(post);

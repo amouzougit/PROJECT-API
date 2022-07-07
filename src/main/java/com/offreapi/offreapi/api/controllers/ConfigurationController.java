@@ -37,9 +37,6 @@ public class ConfigurationController {
 	 private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	 
 	 
-	 
-	
-	 
 	 /**
 	     * Method to fetch all users from the db.
 	     * @return
@@ -47,8 +44,8 @@ public class ConfigurationController {
 	    @GetMapping("/all")
 	    @ResponseStatus(HttpStatus.OK)
 	    public Collection<Configuration> getAll() {
-	        System.out.println("-------> : getAllCategories");
-	        logger.debug("Getting all categorie.");
+	        System.out.println("-------> : getAllConfigurations");
+	        logger.debug("Getting all Configuration.");
 	        return this.configurationRepository.findAll();
 	    }
 	    
@@ -59,28 +56,10 @@ public class ConfigurationController {
 	     */
 	    @GetMapping("/{id}")
 	    public Optional<Configuration> getById(@PathVariable(value= "id") int id) {
-	        logger.debug("Getting categories with user-id= {}.", id);
+	        logger.debug("Getting Configuration with user-id= {}.", id);
 	        return this.configurationRepository.findById(id);
 	    }
 	    
-	    
-	    
-	    /**
-	     * Method to update offre by id.
-	     * @param id
-	     * @param offre
-	     * @return
-	     */
-	   /* @PutMapping("/{id}")
-	    @ResponseStatus(HttpStatus.OK)
-	    public String update(@PathVariable(value= "id") int id, @RequestBody Offre offre) {
-	        logger.debug("Updating offre with id= {}.", id);
-	        offre.setId("id");
-	        offreRepository.updateOffre(offre);
-	        return "offre record for user-id= " + id + " updated.";
-	    }
-	    */
-	 
 	    
 	    /**
 	     * Method to delete user by id.
@@ -90,14 +69,14 @@ public class ConfigurationController {
 	    @DeleteMapping("/{id}")
 	    @ResponseStatus(HttpStatus.OK)
 	    public String delete(@PathVariable(value= "id") int id) {
-	        logger.debug("Deleting categorie with id= {}.", id);
+	        logger.debug("Deleting configuration with id= {}.", id);
 	        configurationRepository.deleteById(id);
 	        return "offre record for id= " + id + " deleted.";
 	    }
 	    
-	    @PostMapping("/create")
+	    @PostMapping("/addConfig")
 	    //@PreAuthorize("hasRole('ADMIN')")
-	    public Configuration createCategorie(@Valid @RequestBody CreateConfigurationRequest configurationRequest, @AuthenticationPrincipal UserDetailsImpl userDetail) {
+	    public Configuration createConfiguration(@Valid @RequestBody CreateConfigurationRequest configurationRequest, @AuthenticationPrincipal UserDetailsImpl userDetail) {
 	    	Configuration configuration = new Configuration(configurationRequest.getId());
 	    	configurationRepository.save(configuration);
 	    	return configuration;
