@@ -3,10 +3,13 @@ package com.offreapi.offreapi.api.controllers;
 import java.util.Collection;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,11 +75,27 @@ public class DemandeController {
 	    }
 	    
 	    @PostMapping("/create")
-	    public Demande createDemande(@RequestBody CreateDemandeRequest demandeRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
-	    	//System.out.println(userDetail.getEmail()+" "+userDetail.getUsername());
-	    	Demande demande = new Demande(userDetail.getId(),demandeRequest.getIdCategorie(),demandeRequest.getDescription());
-	    	demandeRepository.save(demande);
-	    	return demande;
+	    public ResponseEntity<?> createDemande( @Valid @RequestBody CreateDemandeRequest demandeRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	    	Optional<Demande> userDemande = demandeRepository.findByIdUserAndIdPost(userDetail.getId(), demandeRequest.getIdPost());
+	    	if(userDemande.isPresent()) {
+	    	   	Demande demande = new Demande(userDetail.getId(),demandeRequest.getIdPost(),demandeRequest.getDescription(),demandeRequest.getTelephone());
+		    	demandeRepository.save(demande);
+		    	   // response
+		        return ResponseEntity.ok(
+		        		demande
+		        );
+	
+	    	}
+	    	return ResponseEntity
+					.badRequest()
+					.body(
+						new String(
+								"vous avez deja postuler a cette offre"
+						)
+					);
+	    	
+	    
+	 
 	    
 		}
 	 

@@ -4,11 +4,11 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "offre")
+@Document(collection = "offre")
 public class Offre extends Post{
 	
 
-	private String titre;
+	//private String titre;
 	//private Date createDate;
 	//private Date modifiedDate;
 	private String contenu;
@@ -22,7 +22,7 @@ public class Offre extends Post{
 	public Offre(String idUser, String idCategorie, String description ,String contenu, String titre) {
 		super(idUser, idCategorie, description);
 		this.contenu = contenu;
-		this.titre = titre;
+		//this.titre = titre;
 
 	}
 	
@@ -33,7 +33,7 @@ public class Offre extends Post{
 	}
 
 
-	public String getTitre() {
+	/*public String getTitre() {
 		return titre;
 	}
 
@@ -41,7 +41,7 @@ public class Offre extends Post{
 
 	public void setTitre(String titre) {
 		this.titre = titre;
-	}
+	}*/
 	
 	
 
@@ -81,12 +81,12 @@ public class Offre extends Post{
 	}
 
 
-
+	/*
 	@Override
 	public String toString() {
 		return "Offre [idOffre=" + ", titre=" + titre + ", description="  + ", createDate="
 				+ ", modifiedDate="  + ", contenu=" + contenu + "]";
-	}
+	}*/
 	
 	
 

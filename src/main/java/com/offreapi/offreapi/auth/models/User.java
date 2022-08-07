@@ -32,14 +32,21 @@ public class User {
     @NotBlank
     @Size(max = 120)
     private String password;
+    
+    @NotBlank
+    @Size(max = 8)
+    private String telephone;
 
     @DBRef
     private Set<Role> roles = new HashSet<>();
 
     private String reference;
+    
+    private String profession;
+
 
     private String firstName;
-
+    
     private String lastName;
 
     private String address;
@@ -54,14 +61,18 @@ public class User {
 	private LocalDateTime tokenCreationDate;
 
     public User() {
+        this.setCreatedAt(LocalDateTime.now());
     }
 
+    
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.isActive = true;
         this.setCreatedAt(LocalDateTime.now());
+        
+        
     }
 
     public User(String username, String email, String password, Boolean isActive) {
@@ -190,6 +201,24 @@ public class User {
 		return userResponse;
 				
 	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getProfession() {
+		return profession;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+	
+	
 	
 	
 	

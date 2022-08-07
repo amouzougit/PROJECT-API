@@ -40,8 +40,6 @@ public class OffreController {
 	 
 	 
 	 
-	
-	 
 	 /**
 	     * Method to fetch all users from the db.
 	     * @return
@@ -68,7 +66,7 @@ public class OffreController {
 	  
 	    
 	    /**
-	     * Method to delete user by id.
+	     * Method to delete offre by id.
 	     * @param id
 	     * @return
 	     */

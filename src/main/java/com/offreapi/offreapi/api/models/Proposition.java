@@ -2,7 +2,7 @@ package com.offreapi.offreapi.api.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-@Document(collation = "proposition")
+@Document(collection = "proposition")
 public class Proposition {
 	@Id
 	private String id;

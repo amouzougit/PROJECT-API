@@ -3,7 +3,7 @@ package com.offreapi.offreapi.api.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "categorie")
+@Document(collection = "categorie")
 public class Categorie {
 	
 	

@@ -2,7 +2,11 @@ package com.offreapi.offreapi.api.types;
 
 import javax.validation.constraints.NotBlank;
 
-public class PostCreateRequest {
+public class UpdatePostRequest {
+
+	
+	@NotBlank
+    private String id;
 	
 	@NotBlank
     private String titre;
@@ -36,9 +40,14 @@ public class PostCreateRequest {
 		this.idCategorie = idCategorie;
 	}
 
+	public String getId() {
+		return id;
+	}
 
-    
-    
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	
 
 }

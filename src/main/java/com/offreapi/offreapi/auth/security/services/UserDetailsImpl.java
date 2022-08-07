@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,10 @@ public class UserDetailsImpl implements UserDetails {
     private Boolean isActive;
 
     private String image;
+    private String profession;
+    private String telephone;
+    private LocalDateTime createdAt;
+
 
     @JsonIgnore
     private String password;
@@ -48,7 +53,11 @@ public class UserDetailsImpl implements UserDetails {
         String lastName,
         String address,
         Boolean isActive,
-        String image
+        String image,
+        String profession,
+        String telephone,
+        LocalDateTime createdAt
+
     ) {
         this.id = id;
         this.username = username;
@@ -61,6 +70,9 @@ public class UserDetailsImpl implements UserDetails {
         this.address = address;
         this.isActive = isActive;
         this.image = image;
+        this.profession = profession;
+        this.telephone = telephone;
+        this.createdAt = createdAt;
     }
 
     public static UserDetailsImpl build(User user) {
@@ -79,7 +91,10 @@ public class UserDetailsImpl implements UserDetails {
                 user.getLastName(),
                 user.getAddress(),
                 user.getIsActive(),
-                user.getImage()
+                user.getImage(),
+                user.getProfession(),
+                user.getTelephone(),
+                user.getCreatedAt()
                 );
     }
 
@@ -107,9 +122,35 @@ public class UserDetailsImpl implements UserDetails {
     public String getAddress() {
         return address;
     }
+    
 
 
-    public Boolean getIsActive() { return isActive; }
+    public String getProfession() {
+		return profession;
+	}
+
+    
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public Boolean getIsActive() { return isActive; }
 
     public void setIsActive(Boolean isActive) { this.isActive = isActive; }
 

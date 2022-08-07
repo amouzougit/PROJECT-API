@@ -28,12 +28,34 @@ public class SignupRequest {
     private String lastName;
     
     private String address;
+    private String telephone;
+    private String profession;
 
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
 
-    public String getUsername() {
+    public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getProfession() {
+		return profession;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
+	}
+
+	public String getUsername() {
         return username;
     }
 

@@ -1,11 +1,12 @@
 package com.offreapi.offreapi.api.models;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "post")
+@Document(collection = "post")
 public class Post {
 	
 		@Id
@@ -16,6 +17,7 @@ public class Post {
 		private String titre;
 		private Date createDate;
 		private Date modifiedDate;
+		private List <Demande> demandes;
 		
 		public Post() {	
 		}
@@ -46,6 +48,16 @@ public class Post {
 		public void setIdUser(String idUser) {
 			this.idUser = idUser;
 		}
+
+		public List<Demande> getDemandes() {
+			return demandes;
+		}
+
+
+		public void setDemandes(List<Demande> demandes) {
+			this.demandes = demandes;
+		}
+
 
 		public String getId() {
 			return id;

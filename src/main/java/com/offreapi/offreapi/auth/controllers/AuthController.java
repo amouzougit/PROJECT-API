@@ -1,10 +1,15 @@
 package com.offreapi.offreapi.auth.controllers;
 
+
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +20,27 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.offreapi.offreapi.api.models.Offre;
+import com.offreapi.offreapi.api.models.Post;
+import com.offreapi.offreapi.api.types.CreateUserRequest;
+import com.offreapi.offreapi.api.types.PostCreateRequest;
+import com.offreapi.offreapi.api.types.UpdatePostRequest;
+import com.offreapi.offreapi.api.types.UpdateUserRequest;
 import com.offreapi.offreapi.auth.models.ERole;
 import com.offreapi.offreapi.auth.models.Role;
 import com.offreapi.offreapi.auth.models.User;
@@ -87,12 +104,27 @@ public class AuthController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												 userDetails.getId(), 
-												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
-												 roles));
+		JwtResponse jwtResponse = new JwtResponse(jwt, 
+				 userDetails.getId(), 											 userDetails.getUsername(), 
+				 userDetails.getEmail(), 
+				 roles);
+		jwtResponse.setProfession(userDetails.getProfession());
+		jwtResponse.setTelephone(userDetails.getTelephone());
+		jwtResponse.setCreatedAt(userDetails.getCreatedAt());
+
+		return ResponseEntity.ok(jwtResponse);
 	}
+	
+	
+	 @GetMapping("/getAll")
+	    @ResponseStatus(HttpStatus.OK)
+	    public Collection<User> getAll() {
+	        System.out.println("-------> : getAllOffres");
+	
+	        return this.userRepository.findAll();
+	    }
+	    
+	
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -156,12 +188,15 @@ public class AuthController {
 		List<String> rolesEn = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
-
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												 userDetails.getId(), 
-												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
-												 rolesEn));
+		JwtResponse jwtResponse = new JwtResponse(jwt, 
+				 userDetails.getId(), 
+				 userDetails.getUsername(), 
+				 userDetails.getEmail(), 
+				 rolesEn);
+		jwtResponse.setProfession(userDetails.getProfession());
+		jwtResponse.setTelephone(userDetails.getTelephone());
+		jwtResponse.setCreatedAt(userDetails.getCreatedAt());
+		return ResponseEntity.ok(jwtResponse);
 		
 	}
 	
@@ -213,6 +248,60 @@ public class AuthController {
 	            );
 				
 	}
+	
+	 @PostMapping("/addUser")
+	    public User saveUser(@RequestBody CreateUserRequest createUserRequest,@AuthenticationPrincipal UserDetailsImpl userDetail){
+	    	User user = new User();
+	    	user.setEmail(createUserRequest.getEmail());
+	    	user.setUsername(createUserRequest.getUsername());
+	    	user.setTelephone(createUserRequest.getTelephone());
+	    	user.setProfession(createUserRequest.getProfession());
+	    	String passwordEncoder = encoder.encode(createUserRequest.getPassword());
+	    	user.setPassword(passwordEncoder);
+		 userRepository.save(user);
+	        
+	      return user;
+	    }
 
 	
+	  @PutMapping("/updateUser")
+	    public Optional<User> updateUser(@RequestBody UpdateUserRequest updateUserRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	    	User user = new User();
+	    	if(updateUserRequest.getEmail() != null) {
+
+	    	user.setEmail(updateUserRequest.getEmail());
+	    	}
+	    	
+	    	if(updateUserRequest.getUsername()!= null) {
+
+	    	user.setUsername(updateUserRequest.getUsername());
+	    	}
+	    	if(updateUserRequest.getPassword() != null) {
+	    	
+		    	String passwordEncoder = encoder.encode(updateUserRequest.getPassword());
+		    	user.setPassword(passwordEncoder);
+	    	}
+
+	    	if(updateUserRequest.getTelephone() != null) {
+
+	    	user.setTelephone(updateUserRequest.getTelephone());
+	    	}
+	    	if(updateUserRequest.getProfession() != null) {
+
+	    	
+	    	user.setProfession(updateUserRequest.getProfession());
+	    	}
+	    	user.setId(updateUserRequest.getId());
+	    	userRepository.save(user);
+	    	return userRepository.findById(user.getId());
+	    
+		}
+	 
+	  @DeleteMapping("/{id}/deleteUser")
+	    @ResponseStatus(HttpStatus.OK)
+	    public ResponseEntity delete(@PathVariable(value= "id") String id) {
+	        userRepository.deleteById(id);
+	        return null;
+	    }
+	    
 }
