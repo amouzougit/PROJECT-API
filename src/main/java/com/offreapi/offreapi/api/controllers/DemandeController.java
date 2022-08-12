@@ -77,7 +77,7 @@ public class DemandeController {
 	    @PostMapping("/create")
 	    public ResponseEntity<?> createDemande( @Valid @RequestBody CreateDemandeRequest demandeRequest,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 	    	Optional<Demande> userDemande = demandeRepository.findByIdUserAndIdPost(userDetail.getId(), demandeRequest.getIdPost());
-	    	if(userDemande.isPresent()) {
+	    	if(!userDemande.isPresent()) {
 	    	   	Demande demande = new Demande(userDetail.getId(),demandeRequest.getIdPost(),demandeRequest.getDescription(),demandeRequest.getTelephone());
 		    	demandeRepository.save(demande);
 		    	   // response
