@@ -2,21 +2,21 @@
 
 Une API REST robuste et sécurisée pour la gestion des offres, développée avec **Spring Boot** et **MongoDB**.
 
-## 📋 Description
+##  Description
 
 **OffreAPI** est une application API REST complète qui fournit des fonctionnalités de gestion d'offres avec authentification sécurisée basée sur JWT, validation des données, stockage MongoDB et intégration email.
 
-## 🚀 Fonctionnalités Principales
+##  Fonctionnalités Principales
 
-- ✅ **API REST** - Endpoints RESTful bien structurés
-- 🔐 **Authentification & Sécurité** - JWT tokens pour la sécurisation des endpoints
-- 🗄️ **Base de Données MongoDB** - NoSQL pour la flexibilité et la scalabilité
-- 📧 **Notification par Email** - Système d'envoi d'emails intégré
-- 📚 **Documentation Swagger/OpenAPI** - Documentation interactive de l'API
-- ✔️ **Validation des Données** - Validation robuste des entrées
-- 🧪 **Tests Unitaires** - Couverture de tests avec Spring Security Test
+-  **API REST** - Endpoints RESTful bien structurés
+-  **Authentification & Sécurité** - JWT tokens pour la sécurisation des endpoints
+-  **Base de Données MongoDB** - NoSQL pour la flexibilité et la scalabilité
+-  **Notification par Email** - Système d'envoi d'emails intégré
+-  **Documentation Swagger/OpenAPI** - Documentation interactive de l'API
+-  **Validation des Données** - Validation robuste des entrées
+-  **Tests Unitaires** - Couverture de tests avec Spring Security Test
 
-## 🛠️ Stack Technologique
+##  Stack Technologique
 
 | Technologie | Version | Utilisation |
 |---|---|---|
@@ -29,14 +29,14 @@ Une API REST robuste et sécurisée pour la gestion des offres, développée ave
 | **SpringDoc OpenAPI** | 1.6.9 | Documentation Swagger |
 | **Maven** | - | Gestion des dépendances |
 
-## 📦 Prérequis
+##  Prérequis
 
 - **Java 8** ou supérieur
 - **Maven 3.6+**
 - **MongoDB** (local ou cloud)
 - Un serveur SMTP pour l'envoi d'emails (optionnel)
 
-## ⚡ Installation & Démarrage
+##  Installation & Démarrage
 
 ### 1. Cloner le repository
 
@@ -91,7 +91,7 @@ mvn spring-boot:run
 
 L'application démarre sur `http://localhost:8080/api`
 
-## 📖 Documentation de l'API
+##  Documentation de l'API
 
 Une fois l'application lancée, accédez à la documentation Swagger :
 
@@ -105,7 +105,7 @@ ou
 http://localhost:8080/api/v3/api-docs
 ```
 
-## 🏗️ Structure du Projet
+##  Structure du Projet
 
 ```
 PROJECT-API/
@@ -130,7 +130,7 @@ PROJECT-API/
 └── README.md
 ```
 
-## 🔐 Authentification JWT
+##  Authentification JWT
 
 ### Flux d'authentification
 
@@ -144,7 +144,7 @@ curl -H "Authorization: Bearer votre_jwt_token" \
      http://localhost:8080/api/offres
 ```
 
-## 📧 Système d'Emails
+##  Système d'Emails
 
 L'API supporte l'envoi d'emails pour les notifications :
 
@@ -152,7 +152,7 @@ L'API supporte l'envoi d'emails pour les notifications :
 - Envoi asynchrone recommandé
 - Templates email personnalisables
 
-## 🧪 Tests
+##  Tests
 
 Exécuter les tests :
 
@@ -165,7 +165,7 @@ Tests avec couverture :
 mvn test jacoco:report
 ```
 
-## 🐛 Dépannage
+##  Dépannage
 
 ### MongoDB non accessible
 ```
@@ -185,7 +185,7 @@ Error: javax.mail.AuthenticationFailedException
 ```
 **Solution** : Vérifiez les identifiants SMTP et que le compte autorise les connexions "Applis moins sécurisées" (Gmail).
 
-## 🤝 Contribution
+##  Contribution
 
 Les contributions sont les bienvenues ! N'hésitez pas à :
 
@@ -195,21 +195,21 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 4. Push vers la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrir une Pull Request
 
-## 📝 License
+##  License
 
 Ce projet est sous license MIT. Voir le fichier `LICENSE` pour plus de détails.
 
-## 👨‍💻 Auteur
+##  Auteur
 
 **amouzougit** - [GitHub Profile](https://github.com/amouzougit)
 
-## 📞 Support & Questions
+##  Support & Questions
 
 Pour toute question ou problème :
-- 📧 Ouvrez une issue sur GitHub
-- 💬 Consultez la documentation Swagger de l'API
+-  Ouvrez une issue sur GitHub
+-  Consultez la documentation Swagger de l'API
 
 ---
 
 **Dernière mise à jour** : Juin 2026
-**Statut** : En développement actif ✨
+**Statut** : En développement actif 
